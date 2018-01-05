@@ -1,4 +1,4 @@
-package com.auth0.samples.bootfaces;
+package org.javaleo.cointrade;
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Scope(value = "session")
 @Component(value = "productController")
 @ELBeanName(value = "productController")
-@Join(path = "/error", to = "/product-form.jsf")
+@Join(path = "/product", to = "/product-form.jsf")
 public class ProductController {
 
 	@Autowired

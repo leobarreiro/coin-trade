@@ -11,8 +11,7 @@
 	<ui:define name="content">
 		<h:form id="form">
 			<p:panel header="Products List">
-				<p:dataTable id="table" var="product"
-					value="#{productList.products}">
+				<p:dataTable id="table" var="product" value="#{productListController.products}">
 					<p:column>
 						<f:facet name="header"># Id</f:facet>
 						<h:outputText value="#{product.id}" />
@@ -28,6 +27,8 @@
 						</h:outputText>
 					</p:column>
 				</p:dataTable>
+				
+				<p:chart type="ohlc" model="#{productListController.ohlc}"  style="width:600px;height:450px" />
 			</p:panel>
 		</h:form>
 
