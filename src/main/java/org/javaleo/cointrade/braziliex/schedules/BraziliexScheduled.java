@@ -104,8 +104,11 @@ public class BraziliexScheduled {
 		List<Market> markets = marketRepo.findByExchange(braziliex);
 
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.MINUTE, -3);
+		c.add(Calendar.MINUTE, -2);
 		List<Ticker> recentTickerSaved = tickerRepo.findTickerByExchangeAndTimeReferenceGreaterThanEqual(braziliex, c.getTimeInMillis());
+
+		int salvos = 0;
+		int repetidos = 0;
 
 		try {
 			CoinTradeBasicResponse rsp = CoinTradeUtils.executeGetRequest(URL_TICKERS);
@@ -143,16 +146,19 @@ public class BraziliexScheduled {
 				}
 
 				Ticker tk = BraziliexUtils.getTickerFromStub(braziliex, mkt, st);
-				// TODO verificar se o ticker ja existe na base de dados
-				tickerRepo.save(tk);
+				if (!BraziliexUtils.isTickerRepeated(recentTickerSaved, tk)) {
+					tickerRepo.save(tk);
+					++salvos;
+				} else {
+					++repetidos;
+				}
 			}
 
-			LOG.info("Braziliex Tickers size: {}", stubs.size());
+			LOG.info("Braziliex Tickers [Salvos:{}|Rep:{}|DT:{}]", salvos, repetidos, DTF.format(LocalDateTime.now()));
 
 		} catch (IOException e) {
 			LOG.error(e.getMessage());
 		}
-		LOG.info("Braziliex Tickers {}", DTF.format(LocalDateTime.now()));
 
 	}
 

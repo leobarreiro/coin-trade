@@ -133,4 +133,15 @@ public class BraziliexUtils {
 		return tk;
 	}
 
+	public static boolean isTickerRepeated(List<Ticker> tickers, Ticker tk) {
+		for (Ticker t : tickers) {
+			if (t.getMarket().equals(tk.getMarket()) && t.getLowestAsk().equals(tk.getLowestAsk()) &&
+					t.getHighestBid().equals(tk.getHighestBid()) && t.getCurrencyVolume().equals(tk.getCurrencyVolume())) {
+				// LOG.info("Ticker repetido [Mkt:{}|Low:{}|High:{}|Vol:{}].", t.getMarket().getName(), t.getLowestAsk(), t.getHighestBid(), t.getCurrencyVolume());
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
