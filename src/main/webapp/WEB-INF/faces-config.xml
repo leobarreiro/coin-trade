@@ -6,5 +6,10 @@
 	version="2.2">
 	<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+			<supported-locale>pt_BR</supported-locale>
+			<supported-locale>br</supported-locale>
+		</locale-config>
 	</application>
 </faces-config>

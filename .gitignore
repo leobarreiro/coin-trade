@@ -1,7 +1,11 @@
 .idea/
 *.iml
+.springbeans
+build/
 data/
 /target/
 /.settings/
 /.classpath
 /.project
+.springBeans
+.tern-project
