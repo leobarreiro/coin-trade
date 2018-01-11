@@ -7,37 +7,26 @@ import org.javaleo.cointrade.server.entities.Exchange;
 import org.javaleo.cointrade.server.entities.Market;
 import org.javaleo.cointrade.server.enums.CandleInterval;
 
-import com.google.gson.annotations.SerializedName;
-
 public class CandleListResponse extends CoinTradeBasicResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	@SerializedName("timestamp")
 	private long timeStamp;
 
-	@SerializedName("message")
 	private String message;
 
-	@SerializedName("help-message")
 	private String helpMessage;
 
-	@SerializedName("since")
 	private long since;
 
-	@SerializedName("until")
 	private long until;
 
-	@SerializedName("exchange")
 	private Exchange exchange;
 
-	@SerializedName("market")
 	private Market market;
 
-	@SerializedName("interval")
 	private CandleInterval candleInterval;
 
-	@SerializedName("candles")
 	private List<Candle> candles;
 
 	@Override
