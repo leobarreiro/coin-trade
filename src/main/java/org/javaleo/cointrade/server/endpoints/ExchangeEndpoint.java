@@ -26,6 +26,7 @@ public class ExchangeEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ExchangeListResponse getExchangeList() {
 		ExchangeListResponse rsp = new ExchangeListResponse();
+		rsp.setOk(true);
 		rsp.setTimeStamp(CoinTradeUtils.now());
 		List<Exchange> exchanges = excRepo.findAll();
 		rsp.setExchanges(exchanges);

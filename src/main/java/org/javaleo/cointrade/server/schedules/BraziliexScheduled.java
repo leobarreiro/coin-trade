@@ -8,8 +8,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.javaleo.cointrade.server.entities.Currency;
 import org.javaleo.cointrade.server.entities.Exchange;
 import org.javaleo.cointrade.server.entities.Market;
@@ -26,6 +24,8 @@ import org.javaleo.cointrade.server.stubs.BraziliexListTickerStub;
 import org.javaleo.cointrade.server.stubs.BraziliexTickerStub;
 import org.javaleo.cointrade.server.utils.BraziliexUtils;
 import org.javaleo.cointrade.server.utils.CoinTradeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class BraziliexScheduled {
 	private static final String BRAZILIEX_URL = "https://braziliex.com";
 	private static final String BRAZILIEX = "Braziliex";
 
-	private static final Logger LOG = LogManager.getLogger("BraziliexScheduled");
+	private static final Logger LOG = LoggerFactory.getLogger(BraziliexScheduled.class);
 
 	private static final String URL_CURRENCIES = "https://braziliex.com/api/v1/public/currencies";
 	private static final String URL_TICKERS = "https://braziliex.com/api/v1/public/ticker";
@@ -66,7 +66,7 @@ public class BraziliexScheduled {
 		}
 	}
 
-	@Scheduled(fixedDelay = 300000)
+	@Scheduled(initialDelay = 300000, fixedDelay = 300000)
 	public void getCurrencies() {
 		List<Currency> currencies = currencyRepo.findAll();
 
@@ -89,7 +89,7 @@ public class BraziliexScheduled {
 		}
 	}
 
-	@Scheduled(fixedDelay = 60000)
+	@Scheduled(initialDelay = 20000, fixedDelay = 60000)
 	public void getTickers() {
 		Exchange braziliex = exchangeRepo.findOneByName(BRAZILIEX);
 		if (braziliex == null) {

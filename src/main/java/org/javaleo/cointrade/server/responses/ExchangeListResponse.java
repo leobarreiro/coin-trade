@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.javaleo.cointrade.server.entities.Exchange;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class ExchangeListResponse extends CoinTradeBasicResponse {
 
 	private static final long serialVersionUID = 1L;
@@ -14,8 +12,7 @@ public class ExchangeListResponse extends CoinTradeBasicResponse {
 
 	private String message;
 
-	@JsonIgnore
-	private String helpMessage;
+	private Boolean ok;
 
 	private List<Exchange> exchanges;
 
@@ -38,12 +35,12 @@ public class ExchangeListResponse extends CoinTradeBasicResponse {
 	}
 
 	@Override
-	public String getHelpMessage() {
-		return helpMessage;
+	public Boolean getOk() {
+		return ok;
 	}
 
-	public void setHelpMessage(String helpMessage) {
-		this.helpMessage = helpMessage;
+	public void setOk(Boolean ok) {
+		this.ok = ok;
 	}
 
 	public List<Exchange> getExchanges() {

@@ -15,6 +15,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
 
 	List<Market> findByExchangeAndReferenceCoin(Exchange exchange, Currency currency);
 
+	@Query("select m from Market m where m.exchange = ?1 and lower(m.name) = lower(?2)")
 	Market findOneByExchangeAndName(Exchange exc, String marketName);
 
 	Market findOneByExchangeAndReferenceCoinAndChangeCoin(Exchange exchange, Currency referenceCoin, Currency changeCoin);

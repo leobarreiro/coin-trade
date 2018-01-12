@@ -11,7 +11,7 @@ public class MarketListResponse extends CoinTradeBasicResponse {
 
 	private long timeStamp;
 	private String message;
-	private String helpMessage;
+	private Boolean ok;
 
 	private Exchange exchange;
 	private List<Market> markets;
@@ -35,12 +35,12 @@ public class MarketListResponse extends CoinTradeBasicResponse {
 	}
 
 	@Override
-	public String getHelpMessage() {
-		return helpMessage;
+	public Boolean getOk() {
+		return ok;
 	}
 
-	public void setHelpMessage(String helpMessage) {
-		this.helpMessage = helpMessage;
+	public void setOk(Boolean ok) {
+		this.ok = ok;
 	}
 
 	public Exchange getExchange() {

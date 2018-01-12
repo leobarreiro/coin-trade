@@ -44,17 +44,22 @@ public class CandleEndpoint {
 		Exchange exc = excRepo.findOneByName(exchangeName);
 		if (exc == null) {
 			rsp.setMessage(MessageFormat.format("Exchange called [{0}] not found.", exchangeName));
+			rsp.setOk(false);
 			return rsp;
 		}
 
 		Market mkt = mktRepo.findOneByExchangeAndName(exc, marketName);
 		if (mkt == null) {
 			rsp.setMessage(MessageFormat.format("Market called [{0}] not found.", marketName));
+			rsp.setOk(false);
+			return rsp;
 		}
 
 		CandleInterval interval = CandleInterval.getByName(candleInterval);
 		if (interval == null) {
 			rsp.setMessage(MessageFormat.format("Interval called [{0}] not found.", interval));
+			rsp.setOk(false);
+			return rsp;
 		}
 
 		List<Candle> candles = candleRepo.findByMarketAndIntervalAndCollectedTimeGreaterThanEqual(mkt, interval, CoinTradeUtils.aDayAgo());
@@ -65,6 +70,7 @@ public class CandleEndpoint {
 		rsp.setMarket(mkt);
 		rsp.setCandleInterval(interval);
 		rsp.setCandles(candles);
+		rsp.setOk(true);
 
 		return rsp;
 	}
