@@ -65,18 +65,18 @@ public class CoinTradeScheduled {
 		LOG.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
 	}
 
-	// @Scheduled(cron = "50 0/30 * * * *")
-	// public void calculate30MinutesCandles() {
-	// List<Market> marketList = marketRepo.findByTraceTrue();
-	// CandleInterval itn = CandleInterval.MIN30;
-	// int saved = 0;
-	// for (Market mk : marketList) {
-	// Candle cdl = mountCandlesByMarketAndInterval(mk, itn);
-	// candleRepo.save(cdl);
-	// saved++;
-	// }
-	// LOG.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
-	// }
+	@Scheduled(cron = "50 0/30 * * * *")
+	public void calculate30MinutesCandles() {
+		List<Market> marketList = marketRepo.findByTraceTrue();
+		CandleInterval itn = CandleInterval.MIN30;
+		int saved = 0;
+		for (Market mk : marketList) {
+			Candle cdl = mountCandlesByMarketAndInterval(mk, itn);
+			candleRepo.save(cdl);
+			saved++;
+		}
+		LOG.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
+	}
 
 	// @Scheduled(cron = "0 0 0/1 * * *")
 	// public void calculateAnHourCandles() {
