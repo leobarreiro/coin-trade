@@ -1,10 +1,6 @@
 # coin-trade
 API Rest com endpoints do mercado de criptomoedas, com ênfase em exchanges brasileiras.
 
-- gabiru light
-- gabro maker
-- wing chun estagiario
-
 ### Endpoints da API
 
 * **exchange/list**
