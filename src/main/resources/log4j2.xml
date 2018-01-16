@@ -4,7 +4,6 @@
         <Property name="LOG_PATTERN">
             %d{yy-MM-dd HH:mm:ss.SSS} %5p [%t] %-30.30c{1.} : %m%n%ex
         </Property>
-        <!-- %d{yy-MM-dd HH:mm:ss.SSS} %5p - [%t] %-40.40c{1.} : %m%n%ex  -->
     </Properties>
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
@@ -15,7 +14,6 @@
         <Logger name="com.example.log4j2demo" level="debug" additivity="false">
             <AppenderRef ref="ConsoleAppender" />
         </Logger>
-
         <Root level="info">
             <AppenderRef ref="ConsoleAppender" />
         </Root>

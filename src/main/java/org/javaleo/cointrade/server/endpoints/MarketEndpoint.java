@@ -37,13 +37,13 @@ public class MarketEndpoint {
 		Exchange exc = excRepo.findOneByName(excName);
 		if (exc == null) {
 			mktRsp.setMessage(MessageFormat.format("Exchange called [{0}] not found.", excName));
-			mktRsp.setOk(false);
+			mktRsp.setSuccess(false);
 			return mktRsp;
 		}
 		mktRsp.setExchange(exc);
 		List<Market> markets = mktRepo.findByExchange(exc);
 		mktRsp.setMarkets(markets);
-		mktRsp.setOk(true);
+		mktRsp.setSuccess(true);
 		return mktRsp;
 	}
 

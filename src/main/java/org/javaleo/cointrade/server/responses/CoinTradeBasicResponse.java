@@ -8,7 +8,7 @@ public abstract class CoinTradeBasicResponse implements Serializable {
 
 	public abstract long getTimeStamp();
 
-	public abstract Boolean getOk();
+	public abstract Boolean getSuccess();
 
 	public abstract String getMessage();
 }

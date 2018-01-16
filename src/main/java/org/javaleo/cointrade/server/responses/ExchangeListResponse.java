@@ -9,11 +9,8 @@ public class ExchangeListResponse extends CoinTradeBasicResponse {
 	private static final long serialVersionUID = 1L;
 
 	private long timeStamp;
-
 	private String message;
-
-	private Boolean ok;
-
+	private Boolean success;
 	private List<Exchange> exchanges;
 
 	@Override
@@ -35,12 +32,12 @@ public class ExchangeListResponse extends CoinTradeBasicResponse {
 	}
 
 	@Override
-	public Boolean getOk() {
-		return ok;
+	public Boolean getSuccess() {
+		return success;
 	}
 
-	public void setOk(Boolean ok) {
-		this.ok = ok;
+	public void setSuccess(Boolean success) {
+		this.success = success;
 	}
 
 	public List<Exchange> getExchanges() {

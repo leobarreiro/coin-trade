@@ -14,7 +14,7 @@ public class CandleListResponse extends CoinTradeBasicResponse {
 
 	private long timeStamp;
 
-	private Boolean ok;
+	private Boolean success;
 
 	private String message;
 
@@ -51,12 +51,12 @@ public class CandleListResponse extends CoinTradeBasicResponse {
 	}
 
 	@Override
-	public Boolean getOk() {
-		return ok;
+	public Boolean getSuccess() {
+		return success;
 	}
 
-	public void setOk(Boolean ok) {
-		this.ok = ok;
+	public void setSuccess(Boolean success) {
+		this.success = success;
 	}
 
 	public long getSince() {
