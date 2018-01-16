@@ -5,6 +5,7 @@ import java.util.List;
 import org.javaleo.cointrade.server.entities.Candle;
 import org.javaleo.cointrade.server.entities.Exchange;
 import org.javaleo.cointrade.server.entities.Market;
+import org.javaleo.cointrade.server.entities.Ticker;
 import org.javaleo.cointrade.server.enums.CandleInterval;
 
 public class CandleListResponse extends CoinTradeBasicResponse {
@@ -24,6 +25,8 @@ public class CandleListResponse extends CoinTradeBasicResponse {
 	private Exchange exchange;
 
 	private Market market;
+
+	private Ticker lastTicker;
 
 	private CandleInterval candleInterval;
 
@@ -86,6 +89,14 @@ public class CandleListResponse extends CoinTradeBasicResponse {
 
 	public void setMarket(Market market) {
 		this.market = market;
+	}
+
+	public Ticker getLastTicker() {
+		return lastTicker;
+	}
+
+	public void setLastTicker(Ticker lastTicker) {
+		this.lastTicker = lastTicker;
 	}
 
 	public CandleInterval getCandleInterval() {

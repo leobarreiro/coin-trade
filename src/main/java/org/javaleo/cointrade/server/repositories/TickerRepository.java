@@ -17,4 +17,6 @@ public interface TickerRepository extends JpaRepository<Ticker, Long> {
 
 	List<Ticker> findByTimeReferenceLessThanEqual(Long aDayAgo);
 
+	Ticker findTop1ByMarketOrderByTimeReferenceDesc(Market mkt);
+
 }

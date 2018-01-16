@@ -12,17 +12,19 @@ import javax.ws.rs.core.MediaType;
 import org.javaleo.cointrade.server.entities.Candle;
 import org.javaleo.cointrade.server.entities.Exchange;
 import org.javaleo.cointrade.server.entities.Market;
+import org.javaleo.cointrade.server.entities.Ticker;
 import org.javaleo.cointrade.server.enums.CandleInterval;
 import org.javaleo.cointrade.server.repositories.CandleRepository;
 import org.javaleo.cointrade.server.repositories.ExchangeRepository;
 import org.javaleo.cointrade.server.repositories.MarketRepository;
+import org.javaleo.cointrade.server.repositories.TickerRepository;
 import org.javaleo.cointrade.server.responses.CandleListResponse;
 import org.javaleo.cointrade.server.utils.CoinTradeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@Path("/candles")
+@Path("/candle")
 public class CandleEndpoint {
 
 	@Autowired
@@ -33,6 +35,9 @@ public class CandleEndpoint {
 
 	@Autowired
 	private CandleRepository candleRepo;
+
+	@Autowired
+	private TickerRepository tickerRepo;
 
 	@GET
 	@Path("/{excname}/{mktname}/{itn}")
@@ -55,6 +60,8 @@ public class CandleEndpoint {
 			return rsp;
 		}
 
+		Ticker tck = tickerRepo.findTop1ByMarketOrderByTimeReferenceDesc(mkt);
+
 		CandleInterval interval = CandleInterval.getByName(candleInterval);
 		if (interval == null) {
 			rsp.setMessage(MessageFormat.format("Interval called [{0}] not found.", interval));
@@ -68,6 +75,7 @@ public class CandleEndpoint {
 		rsp.setUntil(CoinTradeUtils.now());
 		rsp.setExchange(exc);
 		rsp.setMarket(mkt);
+		rsp.setLastTicker(tck);
 		rsp.setCandleInterval(interval);
 		rsp.setCandles(candles);
 		rsp.setOk(true);
