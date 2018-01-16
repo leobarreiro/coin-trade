@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ticker")
 public class Ticker implements Serializable {
@@ -20,32 +22,40 @@ public class Ticker implements Serializable {
 	@Id
 	@Column(name = "ticker_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "exchange_id", referencedColumnName = "exchange_id")
+	@JsonIgnore
 	private Exchange exchange;
 
 	@ManyToOne
 	@JoinColumn(name = "market_id", referencedColumnName = "market_id")
+	@JsonIgnore
 	private Market market;
 
 	@Column(name = "time_ref")
 	private Long timeReference;
 
 	@Column(name = "tkr_year", scale = 4)
+	@JsonIgnore
 	private Integer year;
 
 	@Column(name = "tkr_month", scale = 2)
+	@JsonIgnore
 	private Integer month;
 
 	@Column(name = "tkr_day", scale = 2)
+	@JsonIgnore
 	private Integer day;
 
 	@Column(name = "tkr_hour", scale = 2)
+	@JsonIgnore
 	private Integer hour;
 
 	@Column(name = "tkr_minute", scale = 2)
+	@JsonIgnore
 	private Integer minute;
 
 	// highestBid - maior preço ofertado para compra

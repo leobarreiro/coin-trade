@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@Path("/markets")
+@Path("/market")
 public class MarketEndpoint {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class MarketEndpoint {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{excname}")
+	@Path("/list/{excname}")
 	public MarketListResponse getMarketsFromExchange(@PathParam("excname") String excName) {
 		MarketListResponse mktRsp = new MarketListResponse();
 		mktRsp.setTimeStamp(CoinTradeUtils.now());
