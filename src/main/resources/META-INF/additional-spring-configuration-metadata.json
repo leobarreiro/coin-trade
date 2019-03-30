@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "management.port",
+    "type": "java.lang.String",
+    "description": "A description for 'management.port'"
+  },
+  {
+    "name": "management.health.redis.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'management.health.redis.enabled'"
+  },
+  {
+    "name": "endpoints.actuator.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'endpoints.actuator.enabled'"
+  },
+  {
+    "name": "spring.jpa.hibernate.properties.hibernate.dialect",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.properties.hibernate.dialect'"
+  }
+]}

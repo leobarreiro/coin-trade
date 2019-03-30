@@ -1,0 +1,22 @@
+server:
+  port: 7071
+  context-path: /coin-collect
+management:
+  port: 9091
+  health:
+    redis:
+      enabled: false 
+endpoints:
+  actuator:
+    enabled: true
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cryptocollect
+    username: postgres
+    password: gabro02
+    continue-on-error: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect

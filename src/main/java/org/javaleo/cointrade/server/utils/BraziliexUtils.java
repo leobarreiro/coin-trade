@@ -95,6 +95,9 @@ public class BraziliexUtils {
 	}
 
 	public static Market getMarketBySymbols(String brzMkt, List<Market> markets) {
+		if (StringUtils.isBlank(brzMkt)) {
+			return null;
+		}
 		String[] crs = StringUtils.split(brzMkt, "_");
 		Symbol refSymbol = Symbol.getFromSymbol(crs[1]);
 		Symbol changeSymbol = Symbol.getFromSymbol(crs[0]);
@@ -111,7 +114,8 @@ public class BraziliexUtils {
 		return null;
 	}
 
-	public static Ticker getTickerFromStub(Exchange exc, Market mkt, BraziliexTickerStub st) throws NumberFormatException {
+	public static Ticker getTickerFromStub(Exchange exc, Market mkt, BraziliexTickerStub st)
+			throws NumberFormatException {
 		Ticker tk = new Ticker();
 		tk.setExchange(exc);
 		tk.setMarket(mkt);

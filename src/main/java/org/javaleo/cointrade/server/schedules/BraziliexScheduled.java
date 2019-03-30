@@ -66,7 +66,7 @@ public class BraziliexScheduled {
 		}
 	}
 
-	@Scheduled(initialDelay = 300000, fixedDelay = 300000)
+	@Scheduled(initialDelay = 1200, fixedDelay = 300000)
 	public void getCurrencies() {
 		List<Currency> currencies = currencyRepo.findAll();
 
@@ -74,11 +74,14 @@ public class BraziliexScheduled {
 			CoinTradeBasicRequest rsp = CoinTradeUtils.executeGetRequest(URL_CURRENCIES);
 			if (rsp.getHttpResponseCode() == HttpStatus.SC_OK) {
 				Gson gson = CoinTradeUtils.createGson();
-				BraziliexListCurrencyStub listCurrency = gson.fromJson(rsp.getResponseContent(), BraziliexListCurrencyStub.class);
+				BraziliexListCurrencyStub listCurrency = gson.fromJson(rsp.getResponseContent(),
+						BraziliexListCurrencyStub.class);
 				List<BraziliexCurrencyStub> stubs = BraziliexUtils.listCurrencyStubFromResponse(listCurrency);
 
 				for (BraziliexCurrencyStub st : stubs) {
-					if (st != null && StringUtils.isNotBlank(st.getName()) && !Symbol.getFromName(st.getName()).equals(Symbol.UNKNOWN) && !BraziliexUtils.currencyExists(st, currencies)) {
+					if (st != null && StringUtils.isNotBlank(st.getName())
+							&& !Symbol.getFromName(st.getName()).equals(Symbol.UNKNOWN)
+							&& !BraziliexUtils.currencyExists(st, currencies)) {
 						Currency cr = BraziliexUtils.getCurrencyFromStub(st);
 						currencyRepo.save(cr);
 					}
@@ -89,7 +92,7 @@ public class BraziliexScheduled {
 		}
 	}
 
-	@Scheduled(initialDelay = 20000, fixedDelay = 60000)
+	@Scheduled(initialDelay = 1600, fixedDelay = 60000)
 	public void getTickers() {
 		Exchange braziliex = exchangeRepo.findOneByName(BRAZILIEX);
 		if (braziliex == null) {
@@ -108,6 +111,9 @@ public class BraziliexScheduled {
 			BraziliexListTickerStub listTicker = gson.fromJson(rsp.getResponseContent(), BraziliexListTickerStub.class);
 			List<BraziliexTickerStub> stubs = BraziliexUtils.listTickerStubFromResponse(listTicker);
 			for (BraziliexTickerStub st : stubs) {
+				if (StringUtils.isBlank(st.getMarket())) {
+					continue;
+				}
 				Market mkt = BraziliexUtils.getMarketBySymbols(st.getMarket(), markets);
 				if (mkt == null) {
 					String[] crs = StringUtils.split(st.getMarket(), "_");
@@ -127,6 +133,7 @@ public class BraziliexScheduled {
 					mkt.setName(changeSymbol.getSymbol().toUpperCase().concat(refSymbol.getSymbol().toUpperCase()));
 					mkt.setReferenceCoin(refCoin);
 					mkt.setChangeCoin(changeCoin);
+					mkt.setTrace(Boolean.TRUE);
 					marketRepo.save(mkt);
 				}
 				Ticker tk = BraziliexUtils.getTickerFromStub(braziliex, mkt, st);

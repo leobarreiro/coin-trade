@@ -3,11 +3,7 @@ package org.javaleo.cointrade.server.endpoints;
 import java.text.MessageFormat;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.websocket.server.PathParam;
 
 import org.javaleo.cointrade.server.entities.Candle;
 import org.javaleo.cointrade.server.entities.Exchange;
@@ -21,10 +17,10 @@ import org.javaleo.cointrade.server.repositories.TickerRepository;
 import org.javaleo.cointrade.server.responses.CandleListResponse;
 import org.javaleo.cointrade.server.utils.CoinTradeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
-@Path("/candle")
+@RestController("/candle")
 public class CandleEndpoint {
 
 	@Autowired
@@ -39,10 +35,9 @@ public class CandleEndpoint {
 	@Autowired
 	private TickerRepository tickerRepo;
 
-	@GET
-	@Path("/{excname}/{mktname}/{itn}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public CandleListResponse getCandlesByExchangeMarketAndInterval(@PathParam("excname") String exchangeName, @PathParam("mktname") String marketName, @PathParam("itn") String candleInterval) {
+	@GetMapping("/{excname}/{mktname}/{itn}")
+	public CandleListResponse getCandlesByExchangeMarketAndInterval(@PathParam("excname") String exchangeName,
+			@PathParam("mktname") String marketName, @PathParam("itn") String candleInterval) {
 		CandleListResponse rsp = new CandleListResponse();
 		rsp.setTimeStamp(CoinTradeUtils.now());
 
@@ -69,7 +64,8 @@ public class CandleEndpoint {
 			return rsp;
 		}
 
-		List<Candle> candles = candleRepo.findByMarketAndIntervalAndCollectedTimeGreaterThanEqual(mkt, interval, CoinTradeUtils.aDayAgo());
+		List<Candle> candles = candleRepo.findByMarketAndIntervalAndCollectedTimeGreaterThanEqual(mkt, interval,
+				CoinTradeUtils.aDayAgo());
 
 		rsp.setSince(CoinTradeUtils.aDayAgo());
 		rsp.setUntil(CoinTradeUtils.now());
