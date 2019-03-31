@@ -62,14 +62,15 @@ public class BraziliexScheduled {
 			exch = new Exchange();
 			exch.setName(BRAZILIEX);
 			exch.setUrl(BRAZILIEX_URL);
-			exchangeRepo.save(exch);
+			exchangeRepo.saveAndFlush(exch);
 		}
+		getCurrencies();
+		getTickers();
 	}
 
 	@Scheduled(initialDelay = 60, fixedDelay = 30000)
 	public void getCurrencies() {
 		List<Currency> currencies = currencyRepo.findAll();
-
 		try {
 			CoinTradeBasicRequest rsp = CoinTradeUtils.executeGetRequest(URL_CURRENCIES);
 			if (rsp.getHttpResponseCode() == HttpStatus.SC_OK) {
@@ -77,13 +78,12 @@ public class BraziliexScheduled {
 				BraziliexListCurrencyStub listCurrency = gson.fromJson(rsp.getResponseContent(),
 						BraziliexListCurrencyStub.class);
 				List<BraziliexCurrencyStub> stubs = BraziliexUtils.listCurrencyStubFromResponse(listCurrency);
-
 				for (BraziliexCurrencyStub st : stubs) {
 					if (st != null && StringUtils.isNotBlank(st.getName())
 							&& !Symbol.getFromName(st.getName()).equals(Symbol.UNKNOWN)
 							&& !BraziliexUtils.currencyExists(st, currencies)) {
 						Currency cr = BraziliexUtils.getCurrencyFromStub(st);
-						currencyRepo.save(cr);
+						currencyRepo.saveAndFlush(cr);
 					}
 				}
 			}
@@ -134,7 +134,7 @@ public class BraziliexScheduled {
 					mkt.setReferenceCoin(refCoin);
 					mkt.setChangeCoin(changeCoin);
 					mkt.setTrace(Boolean.TRUE);
-					marketRepo.save(mkt);
+					marketRepo.saveAndFlush(mkt);
 				}
 				Ticker tk = BraziliexUtils.getTickerFromStub(braziliex, mkt, st);
 				tickerRepo.save(tk);
