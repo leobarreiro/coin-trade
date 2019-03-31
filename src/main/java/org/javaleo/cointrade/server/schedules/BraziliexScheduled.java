@@ -66,7 +66,7 @@ public class BraziliexScheduled {
 		}
 	}
 
-	@Scheduled(initialDelay = 1200, fixedDelay = 300000)
+	@Scheduled(initialDelay = 60, fixedDelay = 30000)
 	public void getCurrencies() {
 		List<Currency> currencies = currencyRepo.findAll();
 
@@ -92,7 +92,7 @@ public class BraziliexScheduled {
 		}
 	}
 
-	@Scheduled(initialDelay = 1600, fixedDelay = 60000)
+	@Scheduled(initialDelay = 120, fixedDelay = 6000)
 	public void getTickers() {
 		Exchange braziliex = exchangeRepo.findOneByName(BRAZILIEX);
 		if (braziliex == null) {
