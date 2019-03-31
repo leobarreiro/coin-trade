@@ -63,9 +63,9 @@ public class BraziliexScheduled {
 			exch.setName(BRAZILIEX);
 			exch.setUrl(BRAZILIEX_URL);
 			exchangeRepo.saveAndFlush(exch);
-			getCurrencies();
-			getTickers();
 		}
+		getCurrencies();
+		getTickers();
 	}
 
 	@Scheduled(initialDelay = 1200, fixedDelay = 300000)
