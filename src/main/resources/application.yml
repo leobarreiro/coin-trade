@@ -1,6 +1,6 @@
 server:
   port: 7071
-  context-path: /coin-collect
+  context-path: /crypto-brasil
 management:
   port: 9091
   health:
@@ -11,7 +11,7 @@ endpoints:
     enabled: true
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/cryptocollect
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: gabro02
     continue-on-error: true
