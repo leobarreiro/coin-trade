@@ -25,7 +25,7 @@ public class BraziliexUtils {
 
 	public static Currency getCurrencyFromStub(BraziliexCurrencyStub stub) {
 		Currency cry = new Currency();
-		cry.setSymbol(Symbol.getFromName(stub.getName()));
+		cry.setName(Symbol.getFromName(stub.getName()));
 		cry.setDescription("Fonte: API Braziliex");
 		return cry;
 	}

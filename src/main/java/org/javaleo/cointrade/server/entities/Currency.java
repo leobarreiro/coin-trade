@@ -15,7 +15,20 @@ import org.javaleo.cointrade.server.enums.Symbol;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
+@EqualsAndHashCode
 @Table(name = "currency", uniqueConstraints = {
 		@UniqueConstraint(columnNames = { "symbol" }, name = "uk_currency_symbol") })
 @SequenceGenerator(name = "seqCurrency", sequenceName = "currency_seq", allocationSize = 1, initialValue = 1)
@@ -34,63 +47,5 @@ public class Currency {
 	@Column(name = "description", nullable = true, length = 60)
 	@JsonIgnore
 	private String description;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Symbol getName() {
-		return name;
-	}
-
-	public void setSymbol(Symbol symbol) {
-		this.name = symbol;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Currency other = (Currency) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name != other.name)
-			return false;
-		return true;
-	}
 
 }

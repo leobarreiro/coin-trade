@@ -14,7 +14,20 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
+@EqualsAndHashCode
 @Table(name = "market")
 @SequenceGenerator(name = "seqMarket", sequenceName = "market_seq", allocationSize = 1, initialValue = 1)
 public class Market implements Serializable {
@@ -50,116 +63,5 @@ public class Market implements Serializable {
 	@Column(name = "trace")
 	@JsonIgnore
 	private Boolean trace;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Exchange getExchange() {
-		return exchange;
-	}
-
-	public void setExchange(Exchange exchange) {
-		this.exchange = exchange;
-	}
-
-	public Currency getReferenceCoin() {
-		return referenceCoin;
-	}
-
-	public void setReferenceCoin(Currency referenceCoin) {
-		this.referenceCoin = referenceCoin;
-	}
-
-	public Currency getChangeCoin() {
-		return changeCoin;
-	}
-
-	public void setChangeCoin(Currency changeCoin) {
-		this.changeCoin = changeCoin;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public Boolean getTrace() {
-		return trace;
-	}
-
-	public void setTrace(Boolean trace) {
-		this.trace = trace;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((active == null) ? 0 : active.hashCode());
-		result = prime * result + ((changeCoin == null) ? 0 : changeCoin.hashCode());
-		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((referenceCoin == null) ? 0 : referenceCoin.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Market other = (Market) obj;
-		if (active == null) {
-			if (other.active != null)
-				return false;
-		} else if (!active.equals(other.active))
-			return false;
-		if (changeCoin == null) {
-			if (other.changeCoin != null)
-				return false;
-		} else if (!changeCoin.equals(other.changeCoin))
-			return false;
-		if (exchange == null) {
-			if (other.exchange != null)
-				return false;
-		} else if (!exchange.equals(other.exchange))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (referenceCoin == null) {
-			if (other.referenceCoin != null)
-				return false;
-		} else if (!referenceCoin.equals(other.referenceCoin))
-			return false;
-		return true;
-	}
 
 }

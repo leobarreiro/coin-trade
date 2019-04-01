@@ -14,6 +14,19 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "ticker")
 @SequenceGenerator(name = "seqTicker", sequenceName = "ticker_seq", allocationSize = 1, initialValue = 1)
@@ -97,200 +110,5 @@ public class Ticker implements Serializable {
 	// quoteVolume24
 	@Column(name = "market_cap_day")
 	private Double marketCapDay;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Exchange getExchange() {
-		return exchange;
-	}
-
-	public void setExchange(Exchange exchange) {
-		this.exchange = exchange;
-	}
-
-	public Market getMarket() {
-		return market;
-	}
-
-	public void setMarket(Market market) {
-		this.market = market;
-	}
-
-	public Long getTimeReference() {
-		return timeReference;
-	}
-
-	public void setTimeReference(Long timeReference) {
-		this.timeReference = timeReference;
-	}
-
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
-	}
-
-	public Integer getMonth() {
-		return month;
-	}
-
-	public void setMonth(Integer month) {
-		this.month = month;
-	}
-
-	public Integer getDay() {
-		return day;
-	}
-
-	public void setDay(Integer day) {
-		this.day = day;
-	}
-
-	public Integer getHour() {
-		return hour;
-	}
-
-	public void setHour(Integer hour) {
-		this.hour = hour;
-	}
-
-	public Integer getMinute() {
-		return minute;
-	}
-
-	public void setMinute(Integer minute) {
-		this.minute = minute;
-	}
-
-	public Double getHighestBid() {
-		return highestBid;
-	}
-
-	public void setHighestBid(Double highestBid) {
-		this.highestBid = highestBid;
-	}
-
-	public Double getLowestAsk() {
-		return lowestAsk;
-	}
-
-	public void setLowestAsk(Double lowestAsk) {
-		this.lowestAsk = lowestAsk;
-	}
-
-	public Double getSpread() {
-		return spread;
-	}
-
-	public void setSpread(Double spread) {
-		this.spread = spread;
-	}
-
-	public Double getPercentChange() {
-		return percentChange;
-	}
-
-	public void setPercentChange(Double percentChange) {
-		this.percentChange = percentChange;
-	}
-
-	public Double getHighestBidDay() {
-		return highestBidDay;
-	}
-
-	public void setHighestBidDay(Double highestBidDay) {
-		this.highestBidDay = highestBidDay;
-	}
-
-	public Double getLowestAskDay() {
-		return lowestAskDay;
-	}
-
-	public void setLowestAskDay(Double lowestAskDay) {
-		this.lowestAskDay = lowestAskDay;
-	}
-
-	public Double getCurrencyVolume() {
-		return currencyVolume;
-	}
-
-	public void setCurrencyVolume(Double currencyVolume) {
-		this.currencyVolume = currencyVolume;
-	}
-
-	public Double getCurrencyVolumeDay() {
-		return currencyVolumeDay;
-	}
-
-	public void setCurrencyVolumeDay(Double currencyVolumeDay) {
-		this.currencyVolumeDay = currencyVolumeDay;
-	}
-
-	public Double getMarketCap() {
-		return marketCap;
-	}
-
-	public void setMarketCap(Double marketCap) {
-		this.marketCap = marketCap;
-	}
-
-	public Double getMarketCapDay() {
-		return marketCapDay;
-	}
-
-	public void setMarketCapDay(Double marketCapDay) {
-		this.marketCapDay = marketCapDay;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((market == null) ? 0 : market.hashCode());
-		result = prime * result + ((timeReference == null) ? 0 : timeReference.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Ticker other = (Ticker) obj;
-		if (exchange == null) {
-			if (other.exchange != null)
-				return false;
-		} else if (!exchange.equals(other.exchange))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (market == null) {
-			if (other.market != null)
-				return false;
-		} else if (!market.equals(other.market))
-			return false;
-		if (timeReference == null) {
-			if (other.timeReference != null)
-				return false;
-		} else if (!timeReference.equals(other.timeReference))
-			return false;
-		return true;
-	}
 
 }

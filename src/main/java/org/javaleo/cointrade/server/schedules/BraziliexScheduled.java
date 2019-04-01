@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.javaleo.cointrade.server.entities.Currency;
@@ -53,23 +51,21 @@ public class BraziliexScheduled {
 	@Autowired
 	private TickerRepository tickerRepo;
 
-	@PostConstruct
+	@Scheduled(initialDelay = 30000, fixedDelay = 360000)
 	public void verifyBraziliexExchange() {
 		log.info("Starting verification of Braziliex Exchange.");
 		Exchange exch = exchangeRepo.findOneByName(BRAZILIEX);
 		if (exch == null) {
-			exch = new Exchange();
-			exch.setName(BRAZILIEX);
-			exch.setUrl(BRAZILIEX_URL);
+			exch = Exchange.builder().name(BRAZILIEX).url(BRAZILIEX_URL).build();
 			exchangeRepo.save(exch);
 		}
-		setupCurrencies();
-		setupTickers();
 	}
 
+	@Scheduled(initialDelay = 60000, fixedDelay = 360000)
 	public void setupCurrencies() {
 		log.info("Starting set up of Braziliex currencies");
 		List<Currency> currencies = currencyRepo.findAll();
+		int saved = 0;
 		try {
 			CoinTradeBasicRequest rsp = CoinTradeUtils.executeGetRequest(URL_CURRENCIES);
 			if (rsp.getHttpResponseCode() == HttpStatus.SC_OK) {
@@ -83,18 +79,25 @@ public class BraziliexScheduled {
 							&& !BraziliexUtils.currencyExists(st, currencies)) {
 						Currency cr = BraziliexUtils.getCurrencyFromStub(st);
 						currencyRepo.save(cr);
+						saved++;
 					}
 				}
+			} else {
+				log.warn("Currency not saved because communication fails. Response code: {}.",
+						rsp.getHttpResponseCode());
 			}
+			log.info("Currencies saved: {}.", saved);
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		}
 	}
 
-	@Scheduled(cron = "0 0/5 * * * *")
+	@Scheduled(initialDelay = 60000, fixedDelay = 120000)
 	public void setupTickers() {
+		log.info("Starting Braziliex tickers search...");
 		Exchange braziliex = exchangeRepo.findOneByName(BRAZILIEX);
 		if (braziliex == null) {
+			log.info("Exchange not found when searching tickers.");
 			return;
 		}
 		List<Market> markets = marketRepo.findByExchange(braziliex);
@@ -104,6 +107,7 @@ public class BraziliexScheduled {
 			int saved = 0;
 			CoinTradeBasicRequest rsp = CoinTradeUtils.executeGetRequest(URL_TICKERS);
 			if (rsp.getHttpResponseCode() != HttpStatus.SC_OK) {
+				log.warn("Error when retrieve tickers from Exchange. Response Code: {}", rsp.getHttpResponseCode());
 				return;
 			}
 			Gson gson = CoinTradeUtils.createGson();
@@ -126,13 +130,9 @@ public class BraziliexScheduled {
 					if (refCoin == null || changeCoin == null) {
 						continue;
 					}
-					mkt = new Market();
-					mkt.setActive(true);
-					mkt.setExchange(braziliex);
-					mkt.setName(changeSymbol.getSymbol().toUpperCase().concat(refSymbol.getSymbol().toUpperCase()));
-					mkt.setReferenceCoin(refCoin);
-					mkt.setChangeCoin(changeCoin);
-					mkt.setTrace(Boolean.TRUE);
+					mkt = Market.builder().active(true).exchange(braziliex)
+							.name(changeSymbol.getSymbol().toUpperCase().concat(refSymbol.getSymbol().toUpperCase()))
+							.referenceCoin(refCoin).changeCoin(changeCoin).trace(Boolean.TRUE).build();
 					marketRepo.save(mkt);
 				}
 				Ticker tk = BraziliexUtils.getTickerFromStub(braziliex, mkt, st);

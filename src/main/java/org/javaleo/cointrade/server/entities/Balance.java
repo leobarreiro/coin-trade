@@ -15,7 +15,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
+@EqualsAndHashCode
 @Table(name = "balance")
 @SequenceGenerator(name = "seqBalance", sequenceName = "balance_seq", allocationSize = 1, initialValue = 1)
 public class Balance implements Serializable {
@@ -38,48 +51,5 @@ public class Balance implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_time")
 	private Date dTime;
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
-		result = prime * result + ((dTime == null) ? 0 : dTime.hashCode());
-		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Balance other = (Balance) obj;
-		if (currency == null) {
-			if (other.currency != null)
-				return false;
-		} else if (!currency.equals(other.currency))
-			return false;
-		if (dTime == null) {
-			if (other.dTime != null)
-				return false;
-		} else if (!dTime.equals(other.dTime))
-			return false;
-		if (exchange == null) {
-			if (other.exchange != null)
-				return false;
-		} else if (!exchange.equals(other.exchange))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
 
 }
