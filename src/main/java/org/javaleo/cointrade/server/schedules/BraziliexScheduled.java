@@ -24,22 +24,20 @@ import org.javaleo.cointrade.server.stubs.BraziliexListTickerStub;
 import org.javaleo.cointrade.server.stubs.BraziliexTickerStub;
 import org.javaleo.cointrade.server.utils.BraziliexUtils;
 import org.javaleo.cointrade.server.utils.CoinTradeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class BraziliexScheduled {
 
 	private static final String BRAZILIEX_URL = "https://braziliex.com";
 	private static final String BRAZILIEX = "Braziliex";
-
-	private static final Logger LOG = LoggerFactory.getLogger(BraziliexScheduled.class);
-
 	private static final String URL_CURRENCIES = "https://braziliex.com/api/v1/public/currencies";
 	private static final String URL_TICKERS = "https://braziliex.com/api/v1/public/ticker";
 
@@ -57,19 +55,20 @@ public class BraziliexScheduled {
 
 	@PostConstruct
 	public void verifyBraziliexExchange() {
+		log.info("Starting verification of Braziliex Exchange.");
 		Exchange exch = exchangeRepo.findOneByName(BRAZILIEX);
 		if (exch == null) {
 			exch = new Exchange();
 			exch.setName(BRAZILIEX);
 			exch.setUrl(BRAZILIEX_URL);
-			exchangeRepo.saveAndFlush(exch);
+			exchangeRepo.save(exch);
 		}
-		getCurrencies();
-		getTickers();
+		setupCurrencies();
+		setupTickers();
 	}
 
-	@Scheduled(cron = "0 0/5 * * * *")
-	public void getCurrencies() {
+	public void setupCurrencies() {
+		log.info("Starting set up of Braziliex currencies");
 		List<Currency> currencies = currencyRepo.findAll();
 		try {
 			CoinTradeBasicRequest rsp = CoinTradeUtils.executeGetRequest(URL_CURRENCIES);
@@ -83,17 +82,17 @@ public class BraziliexScheduled {
 							&& !Symbol.getFromName(st.getName()).equals(Symbol.UNKNOWN)
 							&& !BraziliexUtils.currencyExists(st, currencies)) {
 						Currency cr = BraziliexUtils.getCurrencyFromStub(st);
-						currencyRepo.saveAndFlush(cr);
+						currencyRepo.save(cr);
 					}
 				}
 			}
 		} catch (IOException e) {
-			LOG.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 
 	@Scheduled(cron = "0 0/5 * * * *")
-	public void getTickers() {
+	public void setupTickers() {
 		Exchange braziliex = exchangeRepo.findOneByName(BRAZILIEX);
 		if (braziliex == null) {
 			return;
@@ -134,15 +133,15 @@ public class BraziliexScheduled {
 					mkt.setReferenceCoin(refCoin);
 					mkt.setChangeCoin(changeCoin);
 					mkt.setTrace(Boolean.TRUE);
-					marketRepo.saveAndFlush(mkt);
+					marketRepo.save(mkt);
 				}
 				Ticker tk = BraziliexUtils.getTickerFromStub(braziliex, mkt, st);
 				tickerRepo.save(tk);
 				saved++;
 			}
-			LOG.info("Braziliex tickers saved [{} tkt]", saved);
+			log.info("Braziliex tickers saved [{} tkt]", saved);
 		} catch (IOException e) {
-			LOG.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 

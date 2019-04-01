@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.javaleo.cointrade.server.enums.CandleInterval;
@@ -19,12 +20,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "candle")
+@SequenceGenerator(name = "seqCandle", sequenceName = "candle_seq", allocationSize = 1, initialValue = 1)
 public class Candle implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqCandle")
 	@Column(name = "candle_id")
 	@JsonIgnore
 	private Long id;
@@ -233,56 +235,90 @@ public class Candle implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Candle other = (Candle) obj;
 		if (closure == null) {
-			if (other.closure != null) return false;
-		} else if (!closure.equals(other.closure)) return false;
+			if (other.closure != null)
+				return false;
+		} else if (!closure.equals(other.closure))
+			return false;
 		if (marketCapAmount == null) {
-			if (other.marketCapAmount != null) return false;
-		} else if (!marketCapAmount.equals(other.marketCapAmount)) return false;
+			if (other.marketCapAmount != null)
+				return false;
+		} else if (!marketCapAmount.equals(other.marketCapAmount))
+			return false;
 		if (collectedTime == null) {
-			if (other.collectedTime != null) return false;
-		} else if (!collectedTime.equals(other.collectedTime)) return false;
+			if (other.collectedTime != null)
+				return false;
+		} else if (!collectedTime.equals(other.collectedTime))
+			return false;
 		if (day == null) {
-			if (other.day != null) return false;
-		} else if (!day.equals(other.day)) return false;
+			if (other.day != null)
+				return false;
+		} else if (!day.equals(other.day))
+			return false;
 		if (exchange == null) {
-			if (other.exchange != null) return false;
-		} else if (!exchange.equals(other.exchange)) return false;
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
 		if (highest == null) {
-			if (other.highest != null) return false;
-		} else if (!highest.equals(other.highest)) return false;
+			if (other.highest != null)
+				return false;
+		} else if (!highest.equals(other.highest))
+			return false;
 		if (hour == null) {
-			if (other.hour != null) return false;
-		} else if (!hour.equals(other.hour)) return false;
+			if (other.hour != null)
+				return false;
+		} else if (!hour.equals(other.hour))
+			return false;
 		if (id == null) {
-			if (other.id != null) return false;
-		} else if (!id.equals(other.id)) return false;
-		if (interval != other.interval) return false;
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (interval != other.interval)
+			return false;
 		if (lowest == null) {
-			if (other.lowest != null) return false;
-		} else if (!lowest.equals(other.lowest)) return false;
+			if (other.lowest != null)
+				return false;
+		} else if (!lowest.equals(other.lowest))
+			return false;
 		if (market == null) {
-			if (other.market != null) return false;
-		} else if (!market.equals(other.market)) return false;
+			if (other.market != null)
+				return false;
+		} else if (!market.equals(other.market))
+			return false;
 		if (minute == null) {
-			if (other.minute != null) return false;
-		} else if (!minute.equals(other.minute)) return false;
+			if (other.minute != null)
+				return false;
+		} else if (!minute.equals(other.minute))
+			return false;
 		if (month == null) {
-			if (other.month != null) return false;
-		} else if (!month.equals(other.month)) return false;
+			if (other.month != null)
+				return false;
+		} else if (!month.equals(other.month))
+			return false;
 		if (opening == null) {
-			if (other.opening != null) return false;
-		} else if (!opening.equals(other.opening)) return false;
+			if (other.opening != null)
+				return false;
+		} else if (!opening.equals(other.opening))
+			return false;
 		if (currencyAmount == null) {
-			if (other.currencyAmount != null) return false;
-		} else if (!currencyAmount.equals(other.currencyAmount)) return false;
+			if (other.currencyAmount != null)
+				return false;
+		} else if (!currencyAmount.equals(other.currencyAmount))
+			return false;
 		if (year == null) {
-			if (other.year != null) return false;
-		} else if (!year.equals(other.year)) return false;
+			if (other.year != null)
+				return false;
+		} else if (!year.equals(other.year))
+			return false;
 		return true;
 	}
 

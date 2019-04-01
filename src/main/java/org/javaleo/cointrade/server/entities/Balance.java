@@ -10,19 +10,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "balance")
+@SequenceGenerator(name = "seqBalance", sequenceName = "balance_seq", allocationSize = 1, initialValue = 1)
 public class Balance implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "balance_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqBalance")
 	private Long id;
 
 	@ManyToOne
@@ -50,22 +52,33 @@ public class Balance implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Balance other = (Balance) obj;
 		if (currency == null) {
-			if (other.currency != null) return false;
-		} else if (!currency.equals(other.currency)) return false;
+			if (other.currency != null)
+				return false;
+		} else if (!currency.equals(other.currency))
+			return false;
 		if (dTime == null) {
-			if (other.dTime != null) return false;
-		} else if (!dTime.equals(other.dTime)) return false;
+			if (other.dTime != null)
+				return false;
+		} else if (!dTime.equals(other.dTime))
+			return false;
 		if (exchange == null) {
-			if (other.exchange != null) return false;
-		} else if (!exchange.equals(other.exchange)) return false;
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
 		if (id == null) {
-			if (other.id != null) return false;
-		} else if (!id.equals(other.id)) return false;
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		return true;
 	}
 

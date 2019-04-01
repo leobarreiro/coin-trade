@@ -1,17 +1,14 @@
 server:
   port: 7071
-  context-path: /crypto-brasil
+  context-path: /brcrypto
 management:
-  port: 9091
-  health:
-    redis:
-      enabled: false 
+  port: 9071
 endpoints:
   actuator:
     enabled: true
 spring:
   datasource:
-    url: jdbc:postgresql://pg-cointrade:5432/postgres
+    url: jdbc:postgresql://pgcointrade:5432/postgres
     username: postgres
     password: gabro02
     continue-on-error: true

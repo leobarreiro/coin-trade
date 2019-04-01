@@ -11,16 +11,15 @@ import org.javaleo.cointrade.server.repositories.CandleRepository;
 import org.javaleo.cointrade.server.repositories.MarketRepository;
 import org.javaleo.cointrade.server.repositories.TickerRepository;
 import org.javaleo.cointrade.server.utils.CoinTradeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Component
-public class CoinTradeScheduled {
+import lombok.extern.slf4j.Slf4j;
 
-	private Logger LOG = LoggerFactory.getLogger(CoinTradeScheduled.class);
+@Component
+@Slf4j
+public class CoinTradeScheduled {
 
 	@Autowired
 	private MarketRepository marketRepo;
@@ -36,7 +35,7 @@ public class CoinTradeScheduled {
 		List<Ticker> oldTickerList = tickerRepo.findByTimeReferenceLessThanEqual(CoinTradeUtils.aDayAgo());
 		int olds = oldTickerList.size();
 		tickerRepo.deleteInBatch(oldTickerList);
-		LOG.info("Old tickers removed [{} reg]", olds);
+		log.info("Old tickers removed [{} reg]", olds);
 	}
 
 	@Scheduled(cron = "0 0/5 * * * *")
@@ -49,7 +48,7 @@ public class CoinTradeScheduled {
 			candleRepo.save(cdl);
 			saved++;
 		}
-		LOG.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
+		log.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
 	}
 
 	@Scheduled(cron = "20 0/10 * * * *")
@@ -62,7 +61,7 @@ public class CoinTradeScheduled {
 			candleRepo.save(cdl);
 			saved++;
 		}
-		LOG.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
+		log.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
 	}
 
 	@Scheduled(cron = "50 0/30 * * * *")
@@ -75,7 +74,7 @@ public class CoinTradeScheduled {
 			candleRepo.save(cdl);
 			saved++;
 		}
-		LOG.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
+		log.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
 	}
 
 	// @Scheduled(cron = "0 0 0/1 * * *")
@@ -89,12 +88,15 @@ public class CoinTradeScheduled {
 	// saved++;
 	// }
 	// LOG.info("Candles calculated [Tp:{}|Reg:{}]", itn.getDescription(), saved);
-	// LOG.info("One-hour Candles are not calculating yet. I passed here to say hello.");
+	// LOG.info("One-hour Candles are not calculating yet. I passed here to say
+	// hello.");
 	// }
 
 	private Candle mountCandlesByMarketAndInterval(Market mkt, CandleInterval itn) {
-		long sinceLimit = (CandleInterval.MIN5.equals(itn)) ? CoinTradeUtils.fiveMinutesAgo() : CoinTradeUtils.tenMinutesAgo();
-		List<Ticker> tickerList = tickerRepo.findTickerByInterval(mkt.getExchange(), mkt, sinceLimit, CoinTradeUtils.now());
+		long sinceLimit = (CandleInterval.MIN5.equals(itn)) ? CoinTradeUtils.fiveMinutesAgo()
+				: CoinTradeUtils.tenMinutesAgo();
+		List<Ticker> tickerList = tickerRepo.findTickerByInterval(mkt.getExchange(), mkt, sinceLimit,
+				CoinTradeUtils.now());
 		List<Double> averageList = new ArrayList<>();
 		List<Double> marketCapList = new ArrayList<>();
 		List<Double> quoteCapList = new ArrayList<>();

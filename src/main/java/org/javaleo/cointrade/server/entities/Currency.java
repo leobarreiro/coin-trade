@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -15,12 +16,14 @@ import org.javaleo.cointrade.server.enums.Symbol;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "currency", uniqueConstraints = { @UniqueConstraint(columnNames = { "symbol" }, name = "uk_currency_symbol") })
+@Table(name = "currency", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "symbol" }, name = "uk_currency_symbol") })
+@SequenceGenerator(name = "seqCurrency", sequenceName = "currency_seq", allocationSize = 1, initialValue = 1)
 public class Currency {
 
 	@Id
 	@Column(name = "currency_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqCurrency")
 	@JsonIgnore
 	private Long id;
 
@@ -68,17 +71,25 @@ public class Currency {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Currency other = (Currency) obj;
 		if (description == null) {
-			if (other.description != null) return false;
-		} else if (!description.equals(other.description)) return false;
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
 		if (id == null) {
-			if (other.id != null) return false;
-		} else if (!id.equals(other.id)) return false;
-		if (name != other.name) return false;
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name != other.name)
+			return false;
 		return true;
 	}
 

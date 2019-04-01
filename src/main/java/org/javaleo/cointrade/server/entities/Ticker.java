@@ -9,19 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "ticker")
+@SequenceGenerator(name = "seqTicker", sequenceName = "ticker_seq", allocationSize = 1, initialValue = 1)
 public class Ticker implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "ticker_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqTicker")
 	@JsonIgnore
 	private Long id;
 
@@ -261,22 +263,33 @@ public class Ticker implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Ticker other = (Ticker) obj;
 		if (exchange == null) {
-			if (other.exchange != null) return false;
-		} else if (!exchange.equals(other.exchange)) return false;
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
 		if (id == null) {
-			if (other.id != null) return false;
-		} else if (!id.equals(other.id)) return false;
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (market == null) {
-			if (other.market != null) return false;
-		} else if (!market.equals(other.market)) return false;
+			if (other.market != null)
+				return false;
+		} else if (!market.equals(other.market))
+			return false;
 		if (timeReference == null) {
-			if (other.timeReference != null) return false;
-		} else if (!timeReference.equals(other.timeReference)) return false;
+			if (other.timeReference != null)
+				return false;
+		} else if (!timeReference.equals(other.timeReference))
+			return false;
 		return true;
 	}
 
