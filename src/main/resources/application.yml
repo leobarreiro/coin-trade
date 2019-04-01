@@ -8,7 +8,7 @@ endpoints:
     enabled: true
 spring:
   datasource:
-    url: jdbc:postgresql://pgcointrade:5432/postgres
+    url: jdbc:postgresql://javaleo.org:5433/postgres
     username: postgres
     password: gabro02
     continue-on-error: true
